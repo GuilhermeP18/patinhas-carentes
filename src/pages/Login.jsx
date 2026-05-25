@@ -17,7 +17,7 @@ export default function Login() {
             <div className="flex flex-col items-center text-center mb-8 w-full max-w-xs">
                 {/* Div do Ícone (Substitua pelo seu SVG/Imagem) */}
                 <div className="w-16 h-16 bg-[#ff6b35] rounded-full flex items-center justify-center text-white font-bold text-xs mb-4 shadow-sm">
-                    ICONE
+                    <img src="../public/patas.png" alt="" />
                 </div>
                 <h1 className="text-3xl font-bold text-[#ff5e24] mb-1">AdotaPet</h1>
                 <p className="text-gray-500 text-sm tracking-wide">Conectando corações e patinhas</p>
@@ -79,7 +79,7 @@ export default function Login() {
                         Não tem uma conta?{' '}
                         <a 
                             id="cadastro" 
-                            href="#" 
+                            href="/Register" 
                             className="text-[#ff6b35] hover:text-[#e4460d] font-semibold transition-colors duration-200"
                         >
                             Cadastre-se

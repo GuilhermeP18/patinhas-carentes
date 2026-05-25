@@ -1,15 +1,17 @@
-import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
+import Register from './pages/Register'
 import Login from './pages/Login'
+
 import './App.css'
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="max-w-[440px] mx-auto">
+      <div className="max-w-[672px] mx-auto">
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Register" element={<Register/>}/>
         </Routes>
       </div>
     </BrowserRouter>
