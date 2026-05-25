@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { User, Mail, Lock } from 'lucide-react';
-
+import { useNavigate } from 'react-router-dom';
 export default function Register() {
     
     const [perfil, setPerfil] = useState('');
 
-    
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         nomeCompleto: '',
         email: '',
@@ -23,6 +23,7 @@ export default function Register() {
             ...formData,
             [name]: value
         });
+        
     };
 
     // Função que valida as regras de negócio do formulário
@@ -65,6 +66,7 @@ export default function Register() {
         if (validarFormulario()) {
             console.log('Formulário enviado com sucesso!', { perfil, ...formData });
             alert('Conta criada com sucesso! (Verifique o console)');
+            navigate('/Login')
         }
     };
 

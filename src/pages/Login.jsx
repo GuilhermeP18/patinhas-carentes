@@ -1,21 +1,23 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
     const handleLogin = (e) => {
         e.preventDefault();
         alert(`Tentando logar com: ${email}`);
+        navigate('/Home'); 
     };
 
     return (
-        // Centraliza todo o conteúdo na tela (horizontal e verticalmente) e adiciona um fundo suave
-        <div className="min-h-screen -50 flex flex-col items-center justify-center p-6 antialiased font-sans">
+        // Corrigido "-50" para "bg-gray-50" para o fundo cinza claro funcionar
+        <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6 antialiased font-sans">
             
             {/* Topo: Ícone e Títulos */}
             <div className="flex flex-col items-center text-center mb-8 w-full max-w-xs">
-                {/* Div do Ícone (Substitua pelo seu SVG/Imagem) */}
                 <div className="w-16 h-16 bg-[#ff6b35] rounded-full flex items-center justify-center text-white font-bold text-xs mb-4 shadow-sm">
                     <img src="../public/patas.png" alt="" />
                 </div>
@@ -41,7 +43,7 @@ export default function Login() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            className="w-full h-11 px-4 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/20 placeholder:text-gray-400 focus:outline-none"
+                            className="w-full h-11 px-4 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/20 placeholder:text-gray-400"
                         />
                     </div>
 
@@ -58,12 +60,12 @@ export default function Login() {
                             value={senha}
                             onChange={(e) => setSenha(e.target.value)}
                             required
-                            className="w-full h-11 px-4 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/20 placeholder:text-gray-400 focus:outline-none"
+                            className="w-full h-11 px-4 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/20 placeholder:text-gray-400"
                         />
                     </div>
 
                     {/* Botão Entrar */}
-                    <div className="pt-2">
+                    <div className="pt-2">                        
                         <button 
                             type="submit" 
                             className="w-full h-12 bg-[#ff6b35] hover:bg-[#ff8254] active:scale-[0.99] text-white font-bold rounded-lg shadow-sm hover:shadow transition-all duration-200 cursor-pointer focus:outline-none"
