@@ -8,11 +8,11 @@ import './App.css'
 function App() {
   return (
     <BrowserRouter>
-      <div className="max-w-[672px] mx-auto">
+      <div className="mx-auto">
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/Register" element={<Register/>}/>
-          <Route></Route>
+          <Route path="/Home" element={<Home/>}></Route>
         </Routes>
       </div>
     </BrowserRouter>
