@@ -17,9 +17,10 @@ export default function Home(){
                         </button>
                     </div>
                     <div className="mr-10">
-                        <button className="cursor-pointer text-gray-400 hover:text-[#3a3a3a] transition-all duration-200">
-                            Sair
-                        </button>
+                        <a href="/" className="cursor-pointer text-gray-400 hover:text-[#3a3a3a] transition-all duration-200">
+                        Sair
+                        </a>                          
+                        
                     </div>
                 </div>
             </div>
