@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <div className="max-w-[672px] mx-auto">
         <Routes>
-          <Route path="/Login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/Register" element={<Register/>}/>
           <Route></Route>
         </Routes>

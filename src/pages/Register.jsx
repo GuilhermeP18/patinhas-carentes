@@ -65,8 +65,7 @@ export default function Register() {
         
         if (validarFormulario()) {
             console.log('Formulário enviado com sucesso!', { perfil, ...formData });
-            alert('Conta criada com sucesso! (Verifique o console)');
-            navigate('/Login')
+            navigate('/')
         }
     };
 
@@ -213,7 +212,7 @@ export default function Register() {
                             Criar conta
                         </button>
                         <p className='text-sm text-gray-600'>
-                            Já tem uma conta? <a href="/Login" className='text-[#ff6b35] hover:text-[#e4460d] font-semibold transition-colors duration-200'>Entrar</a>
+                            Já tem uma conta? <a href="/" className='text-[#ff6b35] hover:text-[#e4460d] font-semibold transition-colors duration-200'>Entrar</a>
                         </p>
                     </div>
                 </form>
