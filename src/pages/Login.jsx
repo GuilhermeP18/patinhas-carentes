@@ -14,7 +14,7 @@ export default function Login() {
 
     return (
         // Corrigido "-50" para "bg-gray-50" para o fundo cinza claro funcionar
-        <div className="min-h-screen  flex flex-col items-center justify-center p-6 antialiased font-sans">
+        <div className="min-h-screen  flex flex-col items-center justify-center p-6 antialiased font-sans ">
             
             {/* Topo: Ícone e Títulos */}
             <div className="flex flex-col items-center text-center mb-8 w-full max-w-xs">
