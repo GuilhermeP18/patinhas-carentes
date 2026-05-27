@@ -1,4 +1,5 @@
 import SearchBar from "./searchBar"
+import Filter from "../components/home/filter";
 
 export default function Main(){
 
@@ -9,7 +10,7 @@ export default function Main(){
             </div>
             <div>
                 <div>
-                    
+                    <Filter/>
                 </div>
             </div>
         </div>
