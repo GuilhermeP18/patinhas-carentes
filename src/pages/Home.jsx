@@ -29,7 +29,7 @@ export default function Home(){
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                         className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
                     >
-                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24 ">
                             {isMenuOpen ? (
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                             ) : (
@@ -40,9 +40,9 @@ export default function Home(){
                 </div>
             </div>
 
-            
-            {isMenuOpen && (
-                <div className="md:hidden bg-white border-b border-gray-200 px-4 py-6 flex flex-col gap-4 shadow-lg">
+            {/* Mobile Dropdown Menu with Transition */}
+            <div className={`md:hidden bg-white border-b border-gray-200 overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'}`}>
+                <div className="px-4 py-6 flex flex-col gap-4 shadow-lg">
                     <button className="w-full bg-[#ff6b35] text-white py-3 rounded-xl font-bold hover:bg-[#ff8254] transition-colors">
                         Cadastrar Pet
                     </button>
@@ -50,7 +50,7 @@ export default function Home(){
                         Sair
                     </a>
                 </div>
-            )}
-        </div>
-    );
-}
+            </div>
+            </div>
+            );
+            }
