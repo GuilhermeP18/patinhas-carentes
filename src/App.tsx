@@ -8,7 +8,7 @@ import './App.css'
 function App() {
   return (
     <BrowserRouter>
-      <div className="mx-auto">
+      <div className="mx-auto min-h-screen flex flex-col">
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/Register" element={<Register/>}/>

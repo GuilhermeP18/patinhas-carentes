@@ -1,9 +1,12 @@
-import { useState } from 'react';
-import Nav from '../components/nav'
-export default function Home(){
+import { useState } from "react";
+import Nav from "../components/nav";
+import Main from "../components/main";
 
-
-    return (
-        <Nav />    
-    );
-            }
+export default function Home() {
+  return (
+    <>
+      <Nav />
+      <Main />
+    </>
+  );
+}
