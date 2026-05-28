@@ -1,6 +1,6 @@
-import SearchBar from "./searchBar"
-import Filter from "./filter";
-import Content from "./content"
+import SearchBar from "./searchBar.tsx"
+import Filter from "./filter.tsx";
+import Content from "./content.tsx"
 
 export default function Main(){
     return(
