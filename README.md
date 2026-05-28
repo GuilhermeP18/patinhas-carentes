@@ -18,7 +18,7 @@ Este projeto está em desenvolvimento inicial. Atualmente, a interface base do f
   - [React Router Dom](https://reactrouter.com/) (Navegação)
 - **Backend (Em estruturação):**
   - Node.js
-- **Linguagem:** TypeScript / JavaScript
+- **Linguagem:** TypeScript (Frontend) / Node.js (Backend)
 
 ## 📂 Funcionalidades Desenvolvidas
 

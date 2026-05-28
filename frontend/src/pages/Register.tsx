@@ -1,6 +1,15 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { User, Mail, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+
+interface Errors {
+    perfil?: string;
+    nomeCompleto?: string;
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+}
+
 export default function Register() {
     
     const [perfil, setPerfil] = useState('');
@@ -14,10 +23,10 @@ export default function Register() {
     });
 
     // 3. Estado para controlar os erros de validação
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState<Errors>({});
 
     // Função mágica que atualiza qualquer input baseado no seu 'name'
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
@@ -28,7 +37,7 @@ export default function Register() {
 
     // Função que valida as regras de negócio do formulário
     const validarFormulario = () => {
-        let errosTemporarios = {};
+        let errosTemporarios: Errors = {};
 
         if (!perfil) {
             errosTemporarios.perfil = 'Selecione uma das opções acima.';
@@ -60,7 +69,7 @@ export default function Register() {
     };
 
     
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         
         if (validarFormulario()) {

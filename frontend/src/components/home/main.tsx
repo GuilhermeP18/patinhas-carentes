@@ -1,8 +1,8 @@
 import SearchBar from "./searchBar"
-import Filter from "../home/filter";
-import Content from "../home/content"
-export default function Main(){
+import Filter from "./filter";
+import Content from "./content"
 
+export default function Main(){
     return(
         <div id="container" className="w-full flex-1 bg-[#f6f5fa]">
             <div className=" h-25">
@@ -18,5 +18,4 @@ export default function Main(){
             </div>
         </div>
     )
-
 }

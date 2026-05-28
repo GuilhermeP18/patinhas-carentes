@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import patasImg from '../assets/patas.png';
 
@@ -7,7 +7,7 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
-    const handleLogin = (e) => {
+    const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         alert(`Tentando logar com: ${email}`);
         navigate('/Home'); 
@@ -42,7 +42,7 @@ export default function Login() {
                             name="email"
                             placeholder="seu@email.com"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                             required
                             className="w-full h-11 px-4 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/20 placeholder:text-gray-400"
                         />
@@ -59,7 +59,7 @@ export default function Login() {
                             name="senha"
                             placeholder="•••••••"
                             value={senha}
-                            onChange={(e) => setSenha(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSenha(e.target.value)}
                             required
                             className="w-full h-11 px-4 border border-gray-300 rounded-lg outline-none transition-all duration-200 focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/20 placeholder:text-gray-400"
                         />
