@@ -2,7 +2,7 @@ import { Search } from 'lucide-react'
 
 export default function SearchBar() {
     return (
-        /* Adicionado 'relative' aqui para posicionar o ícone em relação à barra */
+       
         <div className="flex items-center w-full h-full justify-center relative">
             
             <div className="pointer-events-none absolute inset-y-0 left-[7.5%] flex items-center pl-3">
