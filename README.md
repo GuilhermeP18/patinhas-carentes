@@ -43,30 +43,6 @@ Este projeto está em desenvolvimento inicial. Atualmente, a interface base do f
 > **Página Home**
 > ![alt text](image-2.png)
 
-## 🔧 Como Executar o Projeto
-
-1. **Clone o repositório:**
-   ```bash
-   git clone https://github.com/seu-usuario/patinhas-carentes.git
-   ```
-
-2. **Acesse a pasta do projeto:**
-   ```bash
-   cd patinhas-carentes
-   ```
-
-3. **Instale as dependências:**
-   ```bash
-   npm install
-   ```
-
-4. **Inicie o servidor de desenvolvimento:**
-   ```bash
-   npm run dev
-   ```
-
-5. **Abra no seu navegador:**
-   O projeto estará disponível em `http://localhost:5173`
 
 ---
 
