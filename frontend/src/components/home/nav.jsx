@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import patasImg from '../../assets/patas.png';
 
 export default function Nav() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,7 +11,7 @@ export default function Nav() {
       >
         <div className="flex items-center">
           <img
-            src="../patas.png"
+            src={patasImg}
             alt=""
             className="w-10 h-10 bg-[#ff6b35] rounded-full mr-3"
           />

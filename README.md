@@ -1,73 +1,74 @@
-# React + TypeScript + Vite
+# AdotaPet - Conectando corações e patinhas 🐾
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O **AdotaPet** é uma plataforma dedicada a facilitar o processo de adoção de animais de estimação, conectando abrigos e protetores a pessoas interessadas em dar um novo lar a um pet. 
 
-Currently, two official plugins are available:
+OBS: Este projeto é facultativo e não será integrado para produção.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Status do Projeto
 
-## React Compiler
+Este projeto está em desenvolvimento inicial. Atualmente, a interface base do frontend foi estruturada, incluindo o fluxo de autenticação e a visualização principal.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠 Tecnologias Utilizadas
 
-## Expanding the ESLint configuration
+- **Frontend:**
+  - [React 19](https://react.dev/)
+  - [Vite](https://vitejs.dev/)
+  - [Tailwind CSS](https://tailwindcss.com/)
+  - [Lucide React](https://lucide.dev/) (Ícones)
+  - [React Router Dom](https://reactrouter.com/) (Navegação)
+- **Backend (Em estruturação):**
+  - Node.js
+- **Linguagem:** TypeScript / JavaScript
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📂 Funcionalidades Desenvolvidas
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Frontend
+- **Página de Login:** Interface intuitiva para acesso de usuários cadastrados.
+- **Página de Cadastro:** Fluxo para novos usuários escolherem entre perfil de "Adotante" ou "Abrigo", com validações de formulário.
+- **Página Home:** Dashboard inicial com:
+  - Barra de navegação responsiva.
+  - Barra de busca para localização de pets.
+  - Filtros laterais (em desenvolvimento).
+  - Área de exibição de conteúdo.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📸 Demonstração
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+*(Espaço reservado para capturas de tela do projeto)*
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+> **Página de Login**
+> ![Login Screen](https://via.placeholder.com/800x450?text=Screenshot+da+Tela+de+Login)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+> **Página de Cadastro**
+> ![Register Screen](https://via.placeholder.com/800x450?text=Screenshot+da+Tela+de+Cadastro)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+> **Página Home**
+> ![Home Screen](https://via.placeholder.com/800x450?text=Screenshot+da+Tela+Home)
+
+## 🔧 Como Executar o Projeto
+
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/seu-usuario/patinhas-carentes.git
+   ```
+
+2. **Acesse a pasta do projeto:**
+   ```bash
+   cd patinhas-carentes
+   ```
+
+3. **Instale as dependências:**
+   ```bash
+   npm install
+   ```
+
+4. **Inicie o servidor de desenvolvimento:**
+   ```bash
+   npm run dev
+   ```
+
+5. **Abra no seu navegador:**
+   O projeto estará disponível em `http://localhost:5173`
+
+---
+
+Desenvolvido como projeto semestral.
