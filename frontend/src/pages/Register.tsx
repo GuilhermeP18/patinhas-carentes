@@ -22,10 +22,10 @@ export default function Register() {
         confirmPassword: ''
     });
 
-    // 3. Estado para controlar os erros de validação
+    
     const [errors, setErrors] = useState<Errors>({});
 
-    // Função mágica que atualiza qualquer input baseado no seu 'name'
+    
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({
@@ -35,7 +35,7 @@ export default function Register() {
         
     };
 
-    // Função que valida as regras de negócio do formulário
+    
     const validarFormulario = () => {
         let errosTemporarios: Errors = {};
 
