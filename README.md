@@ -32,17 +32,16 @@ Este projeto está em desenvolvimento inicial. Atualmente, a interface base do f
   - Área de exibição de conteúdo.
 
 ## 📸 Demonstração
-
-*(Espaço reservado para capturas de tela do projeto)*
+- [EM DESENVOLVIMENTO]
 
 > **Página de Login**
-> ![Login Screen](https://via.placeholder.com/800x450?text=Screenshot+da+Tela+de+Login)
+> ![alt text](image.png)
 
 > **Página de Cadastro**
-> ![Register Screen](https://via.placeholder.com/800x450?text=Screenshot+da+Tela+de+Cadastro)
+> ![alt text](image-1.png)
 
 > **Página Home**
-> ![Home Screen](https://via.placeholder.com/800x450?text=Screenshot+da+Tela+Home)
+> ![alt text](image-2.png)
 
 ## 🔧 Como Executar o Projeto
 
