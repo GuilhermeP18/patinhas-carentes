@@ -6,7 +6,7 @@ export default function Nav() {
     <div>
       <div
         id="nav"
-        className="w-full h-[80px] border-b border-gray-400/50 flex items-center justify-between px-4 md:px-20 bg-white"
+        className="w-full h-20 border-b border-gray-400/50 flex items-center justify-between px-4 md:px-40 bg-white"
       >
         <div className="flex items-center">
           <img
