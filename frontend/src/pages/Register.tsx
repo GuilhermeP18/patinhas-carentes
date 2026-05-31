@@ -53,12 +53,57 @@ export default function Register() {
     
     const [errors, setErrors] = useState<Errors>({});
 
+    //  Usabilidade: Formata os campos automaticamente
+    const formatters = {
+            cnpj: (value: string) => {
+               return value
+                   .replace(/\D/g, '')
+                   .replace(/^(\d{2})(\d)/, '$1.$2')
+                   .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+                   .replace(/\.(\d{3})(\d)/, '.$1/$2')
+                   .replace(/(\d{4})(\d)/, '$1-$2')
+                   .slice(0, 18);
+           },
+           telefone: (value: string) => {
+               return value
+                   .replace(/\D/g, '')
+                   .replace(/^(\d{2})(\d)/g, '($1) $2')
+                   .replace(/(\d{5})(\d)/, '$1-$2')
+                   .slice(0, 15);
+           },
+           cep: (value: string) => {
+               return value
+                   .replace(/\D/g, '')
+                   .replace(/(\d{5})(\d)/, '$1-$2')
+                   .slice(0, 9);
+           },
+           estado: (value: string) => {
+                return value
+                   .replace(/[^a-zA-Z]/g, '')
+                   .slice(0, 2)
+           },
+           cidade: (value: string) => {
+                return value
+                   .replace(/[^a-zA-Z]/g, '')
+           }
+
+       };
+
     // Atualiza o estado dos campos do formulário
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
+        let campoFormatado = value;
+
+
+        if (name === 'cnpj') campoFormatado = formatters.cnpj(value);
+        if (name === 'telefone') campoFormatado = formatters.telefone(value);
+        if (name === 'cep') campoFormatado = formatters.cep(value);
+        if (name === 'estado') campoFormatado = formatters.estado(value)
+        if (name === 'cidade') campoFormatado = formatters.cidade(value).toUpperCase()
+
         setFormData({
             ...formData,
-            [name]: value
+            [name]: campoFormatado
         });
         
     };
@@ -339,7 +384,7 @@ export default function Register() {
                                                 autoComplete='new-password'
                                                 value={formData.confirmPassword}
                                                 onChange={handleChange}
-                                                className={`border rounded-md h-10 pr-2 pl-10 w-full outline-none transition-colors
+                                                className={`border rounded-md  h-10 pr-2 pl-10 w-full outline-none transition-colors
                                                     ${errors.confirmPassword ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
                                             />
                                         </div>
@@ -359,6 +404,7 @@ export default function Register() {
                                                 type="text" 
                                                 name="telefone" 
                                                 id="telefone" 
+                                                maxLength={15}
                                                 value={formData.telefone}
                                                 onChange={handleChange}
                                                 className={`border rounded-md pr-2 pl-10 h-10 w-full outline-none transition-colors
@@ -462,6 +508,7 @@ export default function Register() {
                                             type="text" 
                                             name="estado" 
                                             id="estado" 
+                                            maxLength={2}
                                             value={formData.estado}
                                             onChange={handleChange}
                                             className={`border rounded-md px-3 h-10 w-full outline-none mt-2 transition-colors
@@ -503,6 +550,7 @@ export default function Register() {
                                                     <div className='relative mt-2'>
                                                         <Building2 className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.tipo_abrigo ? 'text-red-400' : 'text-gray-400'}`} />
                                                         <select 
+                                                            
                                                             name="tipo_abrigo" 
                                                             id="tipo-abrigo"
                                                             value={formData.tipo_abrigo}

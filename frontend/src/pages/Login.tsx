@@ -9,7 +9,7 @@ export default function Login() {
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        alert(`Tentando logar com: ${email}`);
+        alert(`Realizado login com sucesso`);
         navigate('/Home'); 
     };
 
