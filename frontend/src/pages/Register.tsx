@@ -30,6 +30,8 @@ export default function Register() {
     const [perfil, setPerfil] = useState('');
 
     const navigate = useNavigate()
+
+    // Define o estado inicial dos dados
     const [formData, setFormData] = useState({
         nomeCompleto: '',
         email: '',
@@ -50,7 +52,7 @@ export default function Register() {
     
     const [errors, setErrors] = useState<Errors>({});
 
-    
+    // Atualiza o estado dos campos do formulário
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({
@@ -184,20 +186,20 @@ export default function Register() {
     };
 
     return (
-        
-        <div className='min-h-screen w-full flex items-center justify-center bg-gray-50 p-4'>
-            
-            
-            <div className='border border-gray-200 bg-white pt-6 px-8 pb-8 rounded-xl shadow-sm w-full max-w-3xl'>
+
+        <div className='min-h-screen w-full flex justify-center bg-gray-50 p-4 items-start pt-12 lg:pt-20'>
+
+
+            <div className='border border-gray-200 bg-white pt-6 px-8 pb-8 rounded-xl shadow-sm w-full max-w-3xl transition-all duration-500 ease-in-out'>
                 <div>
                     <p className='text-2xl font-semibold mb-4'>Criar conta</p>
                 </div>
                 <div>
                     <p className='mb-4 text-gray-600'>Eu sou:</p>
                 </div>
-                
+
                 <form onSubmit={handleSubmit}>
-                    
+
                     {/* ================================================================================================== */}
                                                     {/* SELEÇÃO DE PERFIL: ABRIGO / ADOTANTE */}
 
@@ -249,105 +251,118 @@ export default function Register() {
 
 
 
-                    {/* ================================================================================================== */}
-                                                    {/* INPUT NOME COMPLETO */}
+                                 {/*  SE FOR PERFIL DE ADOTANTE, RENDERIZA SOMENTE OS DADOS NECESSÁRIOS PARA ADOTANTES */}
 
 
-                    
-                    <div className='flex flex-col mb-5'>
-                        <label htmlFor="nome" className="text-sm font-medium text-gray-700">Nome Completo</label>
-                        <div className='relative mt-2'>
-                            <User className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.nomeCompleto ? 'text-red-400' : 'text-gray-400'}`} />
-                            <input 
-                                type="text" 
-                                id="nome" 
-                                name='nomeCompleto' 
-                                value={formData.nomeCompleto}
-                                onChange={handleChange}
-                                className={`border rounded-md pr-2 pl-10 h-10 w-full outline-none transition-colors
-                                    ${errors.nomeCompleto ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
-                                placeholder='Seu nome completo'
-                            />
-                        </div>
-                        {errors.nomeCompleto && <span className="text-xs text-red-500 mt-1">{errors.nomeCompleto}</span>}
-                    </div>
+                    <div className={`grid transition-all duration-500 ease-in-out ${perfil === 'adotante' ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                        <div className="overflow-hidden">
+                            <div className="animate-fade-in">
+                                {/* ================================================================================================== */}
+                                                                {/* INPUT NOME COMPLETO */}
 
-                    {/* ================================================================================================== */}
-                                                    {/* INPUT DE EMAIL */}
+                                <div className='flex flex-col mb-5'>
+                                    <label htmlFor="nome" className="text-sm font-medium text-gray-700">Nome Completo</label>
+                                    <div className='relative mt-2'>
+                                        <User className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.nomeCompleto ? 'text-red-400' : 'text-gray-400'}`} />
+                                        <input 
+                                            type="text" 
+                                            id="nome" 
+                                            name='nomeCompleto' 
+                                            value={formData.nomeCompleto}
+                                            onChange={handleChange}
+                                            className={`border rounded-md pr-2 pl-10 h-10 w-full outline-none transition-colors
+                                                ${errors.nomeCompleto ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
+                                            placeholder='Seu nome completo'
+                                        />
+                                    </div>
+                                    {errors.nomeCompleto && <span className="text-xs text-red-500 mt-1">{errors.nomeCompleto}</span>}
+                                </div>
 
-
-                    <div className='flex flex-col mb-5'>
-                        <label htmlFor="email" className="text-sm font-medium text-gray-700">E-mail</label>
-                        <div className='relative mt-2'>
-                            <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.email ? 'text-red-400' : 'text-gray-400'}`} />
-                            <input 
-                                type="text" 
-                                name="email" 
-                                id="email" 
-                                value={formData.email}
-                                onChange={handleChange}
-                                className={`border rounded-md pr-2 pl-10 h-10 w-full outline-none transition-colors
-                                    ${errors.email ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
-                                placeholder='seu@email.com'
-                            />
-                        </div>
-                        {errors.email && <span className="text-xs text-red-500 mt-1">{errors.email}</span>}
-                    </div>
-
-                   {/* ================================================================================================== */}
-                                                    {/* INPUT DE SENHA */}
+                                {/* ================================================================================================== */}
+                                                                {/* INPUT DE EMAIL */}
 
 
-                    <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4'>
-                        <div className='flex flex-col'>
-                            <label htmlFor="password">Senha</label>
-                            <div className='relative mt-2'>
-                                <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.password ? 'text-red-400' : 'text-gray-400'}`} />
-                                <input 
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    autoComplete="new-password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    className={`border rounded-md h-10 pr-2 pl-10 w-full outline-none transition-colors
-                                        ${errors.password ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
-                                />
+                                <div className='flex flex-col mb-5'>
+                                    <label htmlFor="email" className="text-sm font-medium text-gray-700">E-mail</label>
+                                    <div className='relative mt-2'>
+                                        <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.email ? 'text-red-400' : 'text-gray-400'}`} />
+                                        <input 
+                                            type="text" 
+                                            name="email" 
+                                            id="email" 
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            className={`border rounded-md pr-2 pl-10 h-10 w-full outline-none transition-colors
+                                                ${errors.email ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
+                                            placeholder='seu@email.com'
+                                        />
+                                    </div>
+                                    {errors.email && <span className="text-xs text-red-500 mt-1">{errors.email}</span>}
+                                </div>
+
+                            {/* ================================================================================================== */}
+                                                                {/* INPUT DE SENHA */}
+
+
+                                <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4'>
+                                    <div className='flex flex-col'>
+                                        <label htmlFor="password">Senha</label>
+                                        <div className='relative mt-2'>
+                                            <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.password ? 'text-red-400' : 'text-gray-400'}`} />
+                                            <input 
+                                                type="password"
+                                                name="password"
+                                                id="password"
+                                                autoComplete="new-password"
+                                                value={formData.password}
+                                                onChange={handleChange}
+                                                className={`border rounded-md h-10 pr-2 pl-10 w-full outline-none transition-colors
+                                                    ${errors.password ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
+                                            />
+                                        </div>
+                                        {errors.password && <span className="text-xs text-red-500 mt-1">{errors.password}</span>}
+                                    </div>
+
+                                    <div className='flex flex-col'>
+                                        <label htmlFor="confirmPassword">Confirmar senha</label>
+                                        <div className='relative mt-2'>
+                                            <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.confirmPassword ? 'text-red-400' : 'text-gray-400'}`} />
+                                            <input
+                                                type="password"
+                                                id="confirmPassword"
+                                                name="confirmPassword"
+                                                autoComplete='new-password'
+                                                value={formData.confirmPassword}
+                                                onChange={handleChange}
+                                                className={`border rounded-md h-10 pr-2 pl-10 w-full outline-none transition-colors
+                                                    ${errors.confirmPassword ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
+                                            />
+                                        </div>
+                                        {errors.confirmPassword && <span className="text-xs text-red-500 mt-1">{errors.confirmPassword}</span>}
+                                    </div>
+                                </div>
                             </div>
-                            {errors.password && <span className="text-xs text-red-500 mt-1">{errors.password}</span>}
                         </div>
-                        
-                        <div className='flex flex-col'>
-                            <label htmlFor="confirmPassword">Confirmar senha</label>
-                            <div className='relative mt-2'>
-                                <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.confirmPassword ? 'text-red-400' : 'text-gray-400'}`} />
-                                <input
-                                    type="password"
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    autoComplete='new-password'
-                                    value={formData.confirmPassword}
-                                    onChange={handleChange}
-                                    className={`border rounded-md h-10 pr-2 pl-10 w-full outline-none transition-colors
-                                        ${errors.confirmPassword ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
-                                />
-                            </div>
-                            {errors.confirmPassword && <span className="text-xs text-red-500 mt-1">{errors.confirmPassword}</span>}
-                        </div>
-                    </div>
 
-                    {/* ================================================================================================== */}
+                         {/* ================================================================================================== */}
                                                     {/* BOTAO PARA ENVIAR FORMULARIO */}
 
 
-                    <div className='mt-8 text-center space-y-4'>
-                        <button type="submit" className='w-full bg-[#ff6b35] hover:bg-[#ff8254] text-white font-semibold py-2.5 rounded-md transition-colors shadow-sm cursor-pointer'>
-                            Criar conta
-                        </button>
-                        <p className='text-sm text-gray-600'>
-                            Já tem uma conta? <a href="/" className='text-[#ff6b35] hover:text-[#e4460d] font-semibold transition-colors duration-200'>Entrar</a>
-                        </p>
+                        <div className='mt-8 text-center space-y-4'>
+                            <button type="submit" className='w-full bg-[#ff6b35] hover:bg-[#ff8254] text-white font-semibold py-2.5 rounded-md transition-colors shadow-sm cursor-pointer'>
+                                Criar conta
+                            </button>
+                            <p className='text-sm text-gray-600'>
+                                Já tem uma conta? <a href="/" className='text-[#ff6b35] hover:text-[#e4460d] font-semibold transition-colors duration-200'>Entrar</a>
+                            </p>
+                        </div>
                     </div>
+
+
+                    
+                    
+
+                   
                 </form>
             </div>
         </div>
