@@ -552,15 +552,18 @@ export default function Register() {
                                     <button type="submit" className='w-full bg-[#ff6b35] hover:bg-[#ff8254] text-white font-semibold py-2.5 rounded-md transition-colors shadow-sm cursor-pointer'>
                                         Criar conta
                                     </button>
-                                    <p className='text-sm text-gray-600'>
-                                        Já tem uma conta? <a href="/" className='text-[#ff6b35] hover:text-[#e4460d] font-semibold transition-colors duration-200'>Entrar</a>
-                                    </p>
+                                    
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </form>
+                <p className=' mt-2 text-center text-sm text-gray-600'>
+                    Já tem uma conta? <a href="/" className='text-[#ff6b35] hover:text-[#e4460d] font-semibold transition-colors duration-200'>Entrar</a>
+                </p>
             </div>
+            
         </div>
     );
 }
