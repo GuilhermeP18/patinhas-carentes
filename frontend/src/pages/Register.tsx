@@ -16,7 +16,8 @@ interface Errors {
     estado?: string,
     telefone?: string,
     data_nascimento?: string,
-    cep?: string
+    cep?: string,
+    cpf?: string,
     
     // Abrigo
     tipo_abrigo?: string,
@@ -47,6 +48,7 @@ export default function Register() {
         data_nascimento: '',
         tipo_abrigo: '',
         cnpj: '',
+        cpf: '',
         capacidade_total: ''
     });
 
@@ -63,6 +65,14 @@ export default function Register() {
                    .replace(/\.(\d{3})(\d)/, '.$1/$2')
                    .replace(/(\d{4})(\d)/, '$1-$2')
                    .slice(0, 18);
+           },
+           cpf: (value: string) => {
+               return value
+                   .replace(/\D/g, '')
+                   .replace(/(\d{3})(\d)/, '$1.$2')
+                   .replace(/(\d{3})(\d)/, '$1.$2')
+                   .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+                   .slice(0, 14);
            },
            telefone: (value: string) => {
                return value
@@ -123,6 +133,7 @@ export default function Register() {
 
 
         if (name === 'cnpj') campoFormatado = formatters.cnpj(value);
+        if (name === 'cpf') campoFormatado = formatters.cpf(value);
         if (name === 'telefone') campoFormatado = formatters.telefone(value);
         if (name === 'cep') {
             campoFormatado = formatters.cep(value);
@@ -144,89 +155,92 @@ export default function Register() {
     const validarFormulario = () => {
         let errosTemporarios: Errors = {};
 
-        // expressão regular para verificar formato báscio teste@teste.teste
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        // expressão regular para validar telefone, permitindo 10 (para fixo) ou 11 (celular com 9 digito)
         const telefoneRegex = /^(\d{2})(\d{4,5})(\d{4})$/;
-
-        // Permite letras maiúsculas, minúsculas, acentos e espaços
         const cidadeRegex = /^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]+$/;
-
-        // Regex para CEP (00000-000 ou 00000000)
         const cepRegex = /^\d{5}-?\d{3}$/;
-
-        // Regex para CNPJ (00.000.000/0000-00 ou apenas números)
         const cnpjRegex = /^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}$/;
+        const cpfRegex = /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/;
 
-        //  Valida se tipo do perfil está vazio
         if (!perfil) {
             errosTemporarios.perfil = 'Selecione uma das opções acima.';
         }
 
-        //  Valida se tipo do nome está vazio
         if (!formData.nomeCompleto.trim()) {
             errosTemporarios.nomeCompleto = 'O nome completo é obrigatório.';
         }
 
-        // Valida se email está vazio
         if (!formData.email.trim()) {
             errosTemporarios.email = 'O e-mail é obrigatório.';
         } else if (!emailRegex.test(formData.email)) {
             errosTemporarios.email = 'Insira um e-mail válido.';
         }
 
-        // Validação de senha (mais que 6 carácteres)
         if (!formData.password.trim()) {
             errosTemporarios.password = 'A senha é obrigatória.';
         } else if (formData.password.length < 6) {
             errosTemporarios.password = 'A senha deve ter pelo menos 6 caracteres.';
         }
 
-        // Validação de senhas iguais
         if (formData.password !== formData.confirmPassword) {
             errosTemporarios.confirmPassword = 'As senhas não coincidem.';
         }
 
-        // Validação de telefone
         if (!formData.telefone.trim()) {
             errosTemporarios.telefone = 'O telefone é obrigatório';
         } else if (!telefoneRegex.test(formData.telefone.replace(/\D/g, ''))) {
             errosTemporarios.telefone = 'Insira um telefone válido';
         }
 
-        // Validação de cep
         if (!formData.cep.trim()) {
             errosTemporarios.cep = 'O campo cep é obrigatório';
         } else if (!cepRegex.test(formData.cep.replace(/\D/g, ''))) {
             errosTemporarios.cep = 'Insira um CEP válido';
         }
 
-        // validação de rua
         if (!formData.rua.trim()) {
             errosTemporarios.rua = 'O campo rua é obrigatório';
         }
 
-        // Validação de cidade
         if (!formData.cidade.trim()) {
             errosTemporarios.cidade = 'O campo cidade é obrigatório';
         } else if (!cidadeRegex.test(formData.cidade)) {
             errosTemporarios.cidade = 'O nome da cidade contém caracteres inválidos';
         }
 
-        // Validação de bairro
         if (!formData.bairro.trim()) {
             errosTemporarios.bairro = 'O campo bairro é obrigatório';
         }
 
-        // Validação de estado
         if (!formData.estado.trim()) {
             errosTemporarios.estado = 'O campo estado é obrigatório';
         }
 
-        // Validação de data de nascimento
-        if (!formData.data_nascimento) {
-            errosTemporarios.data_nascimento = 'A data é obrigatória';
+        // Validação CPF e Data para Adotante
+        if (perfil === 'adotante') {
+            if (!formData.data_nascimento) {
+                errosTemporarios.data_nascimento = 'A data é obrigatória';
+            } else {
+                const dataNasc = new Date(formData.data_nascimento);
+                const hoje = new Date();
+                let idade = hoje.getFullYear() - dataNasc.getFullYear();
+                const mes = hoje.getMonth() - dataNasc.getMonth();
+                
+                // Ajusta a idade se o aniversário ainda não aconteceu este ano
+                if (mes < 0 || (mes === 0 && hoje.getDate() < dataNasc.getDate())) {
+                    idade--;
+                }
+
+                if (idade < 18) {
+                    errosTemporarios.data_nascimento = 'Você deve ter pelo menos 18 anos para se cadastrar.';
+                }
+            }
+
+            if (!formData.cpf.trim()) {
+                errosTemporarios.cpf = 'O CPF é obrigatório';
+            } else if (!cpfRegex.test(formData.cpf.replace(/\D/g, ''))) {
+                errosTemporarios.cpf = 'Insira um CPF válido';
+            }
         }
 
         // Validações específicas para Abrigo
@@ -235,11 +249,23 @@ export default function Register() {
                 errosTemporarios.tipo_abrigo = 'Selecione o tipo do abrigo';
             }
 
-            if (formData.tipo_abrigo !== 'independente' && formData.tipo_abrigo !== 'larTemporario') {
+            const tipoIndependente = formData.tipo_abrigo === 'independente' || 
+                                   formData.tipo_abrigo === 'larTemporario' || 
+                                   formData.tipo_abrigo === 'protetorAutonomo';
+
+            if (tipoIndependente) {
+                // Para independentes: CPF obrigatório, CNPJ opcional
+                if (!formData.cpf.trim()) {
+                    errosTemporarios.cpf = 'O CPF é obrigatório para protetores independentes';
+                } else if (!cpfRegex.test(formData.cpf.replace(/\D/g, ''))) {
+                    errosTemporarios.cpf = 'Insira um CPF válido';
+                }
+            } else {
+                // Para organizações: CNPJ obrigatório
                 if (!formData.cnpj.trim()) {
-                errosTemporarios.cnpj = 'O CNPJ é obrigatório';
+                    errosTemporarios.cnpj = 'O CNPJ é obrigatório';
                 } else if (!cnpjRegex.test(formData.cnpj.replace(/\D/g, ''))) {
-                errosTemporarios.cnpj = 'Insira um CNPJ válido';
+                    errosTemporarios.cnpj = 'Insira um CNPJ válido';
                 }
             }
             
@@ -425,10 +451,10 @@ export default function Register() {
                                 </div>
 
                                 {/* ================================================================================================== */}
-                                                                {/* CONTATO E DATA */}
+                                                                {/* DOCUMENTO E CONTATO/DATA */}
 
                                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                                    <div className='flex flex-col'>
+                                    <div className={`flex flex-col ${perfil === 'abrigo' ? 'sm:col-span-2' : ''}`}>
                                         <label htmlFor="telefone" className="text-sm font-medium text-gray-700">Telefone</label>
                                         <div className='relative mt-2'>
                                             <Phone className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.telefone ? 'text-red-400' : 'text-gray-400'}`} />
@@ -446,23 +472,45 @@ export default function Register() {
                                         </div>
                                         {errors.telefone && <span className="text-xs text-red-500 mt-1">{errors.telefone}</span>}
                                     </div>
+                                    {perfil === 'adotante' && (
+                                        <div className='flex flex-col'>
+                                            <label htmlFor="data_nascimento" className="text-sm font-medium text-gray-700">Data de Nascimento</label>
+                                            <div className='relative mt-2'>
+                                                <Calendar className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.data_nascimento ? 'text-red-400' : 'text-gray-400'}`} />
+                                                <input 
+                                                    type="date" 
+                                                    name="data_nascimento" 
+                                                    id="data_nascimento" 
+                                                    value={formData.data_nascimento}
+                                                    onChange={handleChange}
+                                                    className={`border rounded-md pr-2 pl-10 h-10 w-full outline-none transition-colors
+                                                        ${errors.data_nascimento ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
+                                                />
+                                            </div>
+                                            {errors.data_nascimento && <span className="text-xs text-red-500 mt-1">{errors.data_nascimento}</span>}
+                                        </div>
+                                    )}
+                                </div>
+
+                                {perfil === 'adotante' && (
                                     <div className='flex flex-col'>
-                                        <label htmlFor="data_nascimento" className="text-sm font-medium text-gray-700">Data de Nascimento</label>
+                                        <label htmlFor="cpf" className="text-sm font-medium text-gray-700">CPF</label>
                                         <div className='relative mt-2'>
-                                            <Calendar className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.data_nascimento ? 'text-red-400' : 'text-gray-400'}`} />
+                                            <Hash className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.cpf ? 'text-red-400' : 'text-gray-400'}`} />
                                             <input 
-                                                type="date" 
-                                                name="data_nascimento" 
-                                                id="data_nascimento" 
-                                                value={formData.data_nascimento}
+                                                type="text" 
+                                                name="cpf" 
+                                                id="cpf" 
+                                                value={formData.cpf}
                                                 onChange={handleChange}
                                                 className={`border rounded-md pr-2 pl-10 h-10 w-full outline-none transition-colors
-                                                    ${errors.data_nascimento ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
+                                                    ${errors.cpf ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
+                                                placeholder="000.000.000-00"
                                             />
                                         </div>
-                                        {errors.data_nascimento && <span className="text-xs text-red-500 mt-1">{errors.data_nascimento}</span>}
+                                        {errors.cpf && <span className="text-xs text-red-500 mt-1">{errors.cpf}</span>}
                                     </div>
-                                </div>
+                                )}
 
                                 {/* ================================================================================================== */}
                                                                             {/* ENDEREÇO*/}
@@ -561,23 +609,6 @@ export default function Register() {
                                             
                                             <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                                                 <div className='flex flex-col'>
-                                                    <label htmlFor="cnpj" className="text-sm font-medium text-gray-700">CNPJ</label>
-                                                    <div className='relative mt-2'>
-                                                        <Hash className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.cnpj ? 'text-red-400' : 'text-gray-400'}`} />
-                                                        <input 
-                                                            type="text" 
-                                                            name="cnpj" 
-                                                            id="cnpj" 
-                                                            value={formData.cnpj}
-                                                            onChange={handleChange}
-                                                            className={`border rounded-md pr-2 pl-10 h-10 w-full outline-none transition-colors
-                                                                ${errors.cnpj ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
-                                                            placeholder="00.000.000/0000-00"
-                                                        />
-                                                    </div>
-                                                    {errors.cnpj && <span className="text-xs text-red-500 mt-1">{errors.cnpj}</span>}
-                                                </div>
-                                                <div className='flex flex-col'>
                                                     <label htmlFor="tipo_abrigo" className="text-sm font-medium text-gray-700">Tipo de Abrigo</label>
                                                     <div className='relative mt-2'>
                                                         <Building2 className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.tipo_abrigo ? 'text-red-400' : 'text-gray-400'}`} />
@@ -601,6 +632,47 @@ export default function Register() {
                                                         </select>
                                                     </div>
                                                     {errors.tipo_abrigo && <span className="text-xs text-red-500 mt-1">{errors.tipo_abrigo}</span>}
+                                                </div>
+
+                                                <div className='flex flex-col'>
+                                                    {/* DOCUMENTO DINÂMICO BASEADO NO TIPO */}
+                                                    {(formData.tipo_abrigo === 'independente' || formData.tipo_abrigo === 'larTemporario' || formData.tipo_abrigo === 'protetorAutonomo') ? (
+                                                        <>
+                                                            <label htmlFor="cpf" className="text-sm font-medium text-gray-700">CPF do Responsável</label>
+                                                            <div className='relative mt-2'>
+                                                                <Hash className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.cpf ? 'text-red-400' : 'text-gray-400'}`} />
+                                                                <input 
+                                                                    type="text" 
+                                                                    name="cpf" 
+                                                                    id="cpf" 
+                                                                    value={formData.cpf}
+                                                                    onChange={handleChange}
+                                                                    className={`border rounded-md pr-2 pl-10 h-10 w-full outline-none transition-colors
+                                                                        ${errors.cpf ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
+                                                                    placeholder="000.000.000-00"
+                                                                />
+                                                            </div>
+                                                            {errors.cpf && <span className="text-xs text-red-500 mt-1">{errors.cpf}</span>}
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <label htmlFor="cnpj" className="text-sm font-medium text-gray-700">CNPJ</label>
+                                                            <div className='relative mt-2'>
+                                                                <Hash className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${errors.cnpj ? 'text-red-400' : 'text-gray-400'}`} />
+                                                                <input 
+                                                                    type="text" 
+                                                                    name="cnpj" 
+                                                                    id="cnpj" 
+                                                                    value={formData.cnpj}
+                                                                    onChange={handleChange}
+                                                                    className={`border rounded-md pr-2 pl-10 h-10 w-full outline-none transition-colors
+                                                                        ${errors.cnpj ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
+                                                                    placeholder="00.000.000/0000-00"
+                                                                />
+                                                            </div>
+                                                            {errors.cnpj && <span className="text-xs text-red-500 mt-1">{errors.cnpj}</span>}
+                                                        </>
+                                                    )}
                                                 </div>
                                             </div>
 
