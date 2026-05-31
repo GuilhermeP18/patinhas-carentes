@@ -4,10 +4,25 @@ import { useNavigate } from 'react-router-dom';
 
 interface Errors {
     perfil?: string;
+
+    // Adotante/Abrigo
     nomeCompleto?: string;
     email?: string;
     password?: string;
     confirmPassword?: string;
+    rua?: string,
+    cidade?: string,
+    bairro?: string,
+    estado?: string,
+    telefone?: string,
+    data_nascimento?: string,
+    cep?: string
+    
+    // Abrigo
+    tipo_abrigo?: string,
+    cnpj?: string,
+    capacidade_total?: string
+
 }
 
 export default function Register() {
@@ -19,7 +34,17 @@ export default function Register() {
         nomeCompleto: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        cep: '',
+        rua: '',
+        cidade: '',
+        bairro: '',
+        estado: '',
+        telefone: '',
+        data_nascimento: '',
+        tipo_abrigo: '',
+        cnpj: '',
+        capacidade_total: ''
     });
 
     
@@ -39,6 +64,21 @@ export default function Register() {
     const validarFormulario = () => {
         let errosTemporarios: Errors = {};
 
+        // expressão regular para verificar formato báscio teste@teste.teste
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // expressão regular para validar telefone, permitindo 10 (para fixo) ou 11 (celular com 9 digito)
+        const telefoneRegex = /^(\d{2})(\d{4,5})(\d{4})$/;
+
+        // Permite letras maiúsculas, minúsculas, acentos e espaços
+        const cidadeRegex = /^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]+$/;
+
+        // Regex para CEP (00000-000 ou 00000000)
+        const cepRegex = /^\d{5}-?\d{3}$/;
+
+        // Regex para CNPJ (00.000.000/0000-00 ou apenas números)
+        const cnpjRegex = /^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}$/;
+
         //  Valida se tipo do perfil está vazio
         if (!perfil) {
             errosTemporarios.perfil = 'Selecione uma das opções acima.';
@@ -49,19 +89,15 @@ export default function Register() {
             errosTemporarios.nomeCompleto = 'O nome completo é obrigatório.';
         }
 
-        // Uma expressão regular para verificar formato báscio teste@teste.teste
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-
         // Valida se email está vazio
-        if (!formData.email) {
+        if (!formData.email.trim()) {
             errosTemporarios.email = 'O e-mail é obrigatório.';
         } else if (!emailRegex.test(formData.email)) {
             errosTemporarios.email = 'Insira um e-mail válido.';
         }
 
         // Validação de senha (mais que 6 carácteres)
-        if (!formData.password) {
+        if (!formData.password.trim()) {
             errosTemporarios.password = 'A senha é obrigatória.';
         } else if (formData.password.length < 6) {
             errosTemporarios.password = 'A senha deve ter pelo menos 6 caracteres.';
@@ -72,7 +108,68 @@ export default function Register() {
             errosTemporarios.confirmPassword = 'As senhas não coincidem.';
         }
 
-        setErrors(errosTemporarios);
+        // Validação de telefone
+        if (!formData.telefone.trim()) {
+            errosTemporarios.telefone = 'O telefone é obrigatório';
+        } else if (!telefoneRegex.test(formData.telefone.replace(/\D/g, ''))) {
+            errosTemporarios.telefone = 'Insira um telefone válido';
+        }
+
+        // Validação de cep
+        if (!formData.cep.trim()) {
+            errosTemporarios.cep = 'O campo cep é obrigatório';
+        } else if (!cepRegex.test(formData.cep.replace(/\D/g, ''))) {
+            errosTemporarios.cep = 'Insira um CEP válido';
+        }
+
+        // validação de rua
+        if (!formData.rua.trim()) {
+            errosTemporarios.rua = 'O campo rua é obrigatório';
+        }
+
+        // Validação de cidade
+        if (!formData.cidade.trim()) {
+            errosTemporarios.cidade = 'O campo cidade é obrigatório';
+        } else if (!cidadeRegex.test(formData.cidade)) {
+            errosTemporarios.cidade = 'O nome da cidade contém caracteres inválidos';
+        }
+
+        // Validação de bairro
+        if (!formData.bairro.trim()) {
+            errosTemporarios.bairro = 'O campo bairro é obrigatório';
+        }
+
+        // Validação de estado
+        if (!formData.estado.trim()) {
+            errosTemporarios.estado = 'O campo estado é obrigatório';
+        }
+
+        // Validação de data de nascimento
+        if (!formData.data_nascimento) {
+            errosTemporarios.data_nascimento = 'A data é obrigatória';
+        }
+
+        // Validações específicas para Abrigo
+        if (perfil === 'abrigo') {
+            if (!formData.tipo_abrigo) {
+                errosTemporarios.tipo_abrigo = 'Selecione o tipo do abrigo';
+            }
+
+            if (!formData.cnpj.trim()) {
+                errosTemporarios.cnpj = 'O CNPJ é obrigatório';
+            } else if (!cnpjRegex.test(formData.cnpj.replace(/\D/g, ''))) {
+                errosTemporarios.cnpj = 'Insira um CNPJ válido';
+            }
+
+            if (!formData.capacidade_total.trim()) {
+                errosTemporarios.capacidade_total = 'A capacidade total é obrigatória';
+            } else if (isNaN(Number(formData.capacidade_total)) || Number(formData.capacidade_total) <= 0) {
+                errosTemporarios.capacidade_total = 'Insira um número válido';
+            }
+        }
+
+
+        setErrors(errosTemporarios);        
         return Object.keys(errosTemporarios).length === 0;
     };
 
