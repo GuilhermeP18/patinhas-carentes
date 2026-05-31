@@ -89,6 +89,33 @@ export default function Register() {
 
        };
 
+    const fetchViaCep = async (cep: string) => {
+        const cepLimpo = cep.replace(/\D/g, '');
+        if (cepLimpo.length !== 8) return;
+
+        try {
+            const response = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+            const data = await response.json();
+
+            if (data.erro) {
+                setErrors(prev => ({ ...prev, cep: 'CEP não encontrado' }));
+                return;
+            }
+
+            setFormData(prev => ({
+                ...prev,
+                rua: data.logradouro,
+                bairro: data.bairro,
+                cidade: data.localidade,
+                estado: data.uf
+            }));
+            setErrors(prev => ({ ...prev, cep: undefined }));
+        } catch (error) {
+            console.error("Erro ao buscar CEP:", error);
+        }
+    };
+            
+       
     // Atualiza o estado dos campos do formulário
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -97,9 +124,14 @@ export default function Register() {
 
         if (name === 'cnpj') campoFormatado = formatters.cnpj(value);
         if (name === 'telefone') campoFormatado = formatters.telefone(value);
-        if (name === 'cep') campoFormatado = formatters.cep(value);
-        if (name === 'estado') campoFormatado = formatters.estado(value)
-        if (name === 'cidade') campoFormatado = formatters.cidade(value).toUpperCase()
+        if (name === 'cep') {
+            campoFormatado = formatters.cep(value);
+            if (campoFormatado.replace(/\D/g, '').length === 8) {
+                fetchViaCep(campoFormatado);
+            }
+        }
+        if (name === 'estado') campoFormatado = formatters.estado(value).toUpperCase();
+        if (name === 'cidade') campoFormatado = formatters.cidade(value);
 
         setFormData({
             ...formData,
@@ -447,8 +479,8 @@ export default function Register() {
                                                 value={formData.cep}
                                                 onChange={(e) => {
                                                     handleChange(e);
-                                                    // TODO: ESPAÇO PARA CONSUMIR API VIACEP
-                                                    // if (e.target.value.length === 8) { fetchViaCep(e.target.value) }
+    
+                                                    if (e.target.value.length === 8) { fetchViaCep(e.target.value) }
                                                 }}
                                                 className={`border rounded-md pr-2 pl-10 h-10 w-full outline-none transition-colors
                                                     ${errors.cep ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-orange-500'}`}
