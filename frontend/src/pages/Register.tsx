@@ -39,27 +39,35 @@ export default function Register() {
     const validarFormulario = () => {
         let errosTemporarios: Errors = {};
 
+        //  Valida se tipo do perfil está vazio
         if (!perfil) {
             errosTemporarios.perfil = 'Selecione uma das opções acima.';
         }
 
+        //  Valida se tipo do nome está vazio
         if (!formData.nomeCompleto.trim()) {
             errosTemporarios.nomeCompleto = 'O nome completo é obrigatório.';
         }
 
-        const emailRegex = /\S+@\S+\.\S+/;
+        // Uma expressão regular para verificar formato báscio teste@teste.teste
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+        // Valida se email está vazio
         if (!formData.email) {
             errosTemporarios.email = 'O e-mail é obrigatório.';
         } else if (!emailRegex.test(formData.email)) {
             errosTemporarios.email = 'Insira um e-mail válido.';
         }
 
+        // Validação de senha (mais que 6 carácteres)
         if (!formData.password) {
             errosTemporarios.password = 'A senha é obrigatória.';
         } else if (formData.password.length < 6) {
             errosTemporarios.password = 'A senha deve ter pelo menos 6 caracteres.';
         }
 
+        // Validação de senhas iguais
         if (formData.password !== formData.confirmPassword) {
             errosTemporarios.confirmPassword = 'As senhas não coincidem.';
         }
@@ -68,7 +76,7 @@ export default function Register() {
         return Object.keys(errosTemporarios).length === 0;
     };
 
-    
+    // Envia o formulario e valida os campos.
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         
@@ -92,7 +100,11 @@ export default function Register() {
                 </div>
                 
                 <form onSubmit={handleSubmit}>
-                    {/* SELEÇÃO DE PERFIL */}
+                    
+                    {/* ================================================================================================== */}
+                                                    {/* SELEÇÃO DE PERFIL: ABRIGO / ADOTANTE */}
+
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
                         <label
                             className={`flex flex-col items-center justify-center p-6 border-2 rounded-2xl cursor-pointer transition-all duration-300 
@@ -138,7 +150,13 @@ export default function Register() {
                         {errors.perfil && <span className="text-xs text-red-500">{errors.perfil}</span>}
                     </div>
 
-                    {/* INPUT NOME COMPLETO */}
+
+
+                    {/* ================================================================================================== */}
+                                                    {/* INPUT NOME COMPLETO */}
+
+
+                    
                     <div className='flex flex-col mb-5'>
                         <label htmlFor="nome" className="text-sm font-medium text-gray-700">Nome Completo</label>
                         <div className='relative mt-2'>
@@ -157,7 +175,10 @@ export default function Register() {
                         {errors.nomeCompleto && <span className="text-xs text-red-500 mt-1">{errors.nomeCompleto}</span>}
                     </div>
 
-                    {/* INPUT E-MAIL */}
+                    {/* ================================================================================================== */}
+                                                    {/* INPUT DE EMAIL */}
+
+
                     <div className='flex flex-col mb-5'>
                         <label htmlFor="email" className="text-sm font-medium text-gray-700">E-mail</label>
                         <div className='relative mt-2'>
@@ -176,7 +197,10 @@ export default function Register() {
                         {errors.email && <span className="text-xs text-red-500 mt-1">{errors.email}</span>}
                     </div>
 
-                    {/* GRID DE SENHAS */}
+                   {/* ================================================================================================== */}
+                                                    {/* INPUT DE SENHA */}
+
+
                     <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4'>
                         <div className='flex flex-col'>
                             <label htmlFor="password">Senha</label>
@@ -215,7 +239,10 @@ export default function Register() {
                         </div>
                     </div>
 
-                    {/* BOTÃO E LINK */}
+                    {/* ================================================================================================== */}
+                                                    {/* BOTAO PARA ENVIAR FORMULARIO */}
+
+
                     <div className='mt-8 text-center space-y-4'>
                         <button type="submit" className='w-full bg-[#ff6b35] hover:bg-[#ff8254] text-white font-semibold py-2.5 rounded-md transition-colors shadow-sm cursor-pointer'>
                             Criar conta
